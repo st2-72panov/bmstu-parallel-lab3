@@ -21,33 +21,25 @@ int main() {
             boost::asio::read_until(socket, dynamic_buffer(input), "\n");
             std::cout << "Message is read\n";
 
-            int n; 
+            int n;
             {
                 std::istringstream iss{input};
-                std::string word;
-                std::vector<std::string> words;
-                while (iss >> word)
-                    words.push_back(word);
-                if (words.size() == 2 && words[0] == "timer")
-                    iss >> n;
-                else
-                    continue;
+                std::string first_word;
+                iss >> first_word >> n;
             }
-            
-            boost::asio::steady_timer timer{io_context, std::chrono::seconds(n)};
-            timer.async_wait([&](const boost::system::error_code& ec) {
-                std::cout << "Writing back...\n";
-                std::string output = "Done!\n";
-                boost::asio::write(socket, buffer(output));
-                std::cout << "Message is sent\n";
-            });
             
             std::cout << "Writing back...\n";
             std::string output = "Ready in " + std::to_string(n) + " sec\n";
             boost::asio::write(socket, buffer(output));
             std::cout << "Message is sent\n";
             
-            io_context.run();
+            boost::asio::steady_timer timer{io_context, std::chrono::seconds(n)};
+            timer.wait();
+
+            std::cout << "Writing back...\n";
+            output = "Done!\n";
+            boost::asio::write(socket, buffer(output));
+            std::cout << "Message is sent\n";
         }
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
