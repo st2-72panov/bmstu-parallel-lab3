@@ -2,7 +2,7 @@
 
 #include <boost/asio.hpp>
 
-#include "config.h"
+#include "../config.h"
 
 using namespace boost::asio;
 

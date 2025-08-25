@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include "config.h"
+#include "../config.h"
 
 using namespace boost::asio;
 
@@ -23,7 +23,7 @@ int main() {
             boost::asio::read_until(socket, dynamic_buffer(message), "\n");
             std::cout << "Message is read: \"" << message << "\"\n";
             boost::algorithm::to_upper(message);
-            // message back
+            
             std::cout << "Writing back...\n";
             boost::asio::write(socket, buffer(message));
             std::cout << "Message is sent: \"" << message << "\"\n";
