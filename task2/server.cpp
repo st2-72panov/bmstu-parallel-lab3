@@ -15,7 +15,7 @@ int main() {
             ip::tcp::socket socket(io_context);
             acceptor.accept(socket);
             std::cout << "Connection established\n";
-            
+
             std::cout << "Reading message...\n";
             std::string input;
             boost::asio::read_until(socket, dynamic_buffer(input), "\n");
@@ -37,7 +37,7 @@ int main() {
             std::cout << "Max number is calculated\n";
 
             std::cout << "Writing back...\n";
-            std::string output = std::to_string(result);
+            std::string output = std::to_string(result) + "\n";
             boost::asio::write(socket, buffer(output));
             std::cout << "Message is sent\n";
         }
