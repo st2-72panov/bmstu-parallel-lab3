@@ -25,15 +25,12 @@ int main() {
         boost::asio::write(socket, buffer(output));
         std::cout << "Message is sent: \"" << output << "\"\n";
 
-        std::cout << "Waiting for reply...\n";
-        std::string input;
-        boost::asio::read_until(socket, dynamic_buffer(input), '\n');
-        std::cout << "Message is received: \"" << input << "\"\n";
-
-        std::cout << "Waiting for reply...\n";
-        std::string input;
-        boost::asio::read_until(socket, dynamic_buffer(input), '\n');
-        std::cout << "Message is received: \"" << input << "\"\n";
+        for (int i = 2; i; --i) {
+            std::cout << "Waiting for reply...\n";
+            std::string input;
+            boost::asio::read_until(socket, dynamic_buffer(input), '\n');
+            std::cout << "Message is received: \"" << input << "\"\n";
+        }
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
